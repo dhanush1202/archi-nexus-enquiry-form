@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Archi Nexus Design Studio · Enquiry</title>
+  <meta name="description" content="Begin your space story with Archi Nexus Design Studio. Share a few details and a design consultant will reach out within 24 hours." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #000000;
+      --bg-soft: #0a0907;
+      --gold: #C9A24B;
+      --gold-soft: rgba(201, 162, 75, 0.35);
+      --gold-faint: rgba(201, 162, 75, 0.15);
+      --txt: #EDE7DA;
+      --muted: #7A7568;
+      --hairline: rgba(255, 255, 255, 0.06);
+      --error: #e05252;
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--txt);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+    body { overflow-x: hidden; }
+
+    a { color: var(--gold); text-decoration: none; }
+    button { font-family: inherit; }
+
+    /* ─── Layout ─── */
+    .page {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 20px 28px;
+    }
+    .shell {
+      width: 100%;
+      max-width: 520px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    /* ─── Hero ─── */
+    .hero {
+      text-align: center;
+      padding-top: 8px;
+    }
+    .logo {
+      width: 100%;
+      max-width: 260px;
+      height: auto;
+      margin: 0 auto 4px;
+      display: block;
+    }
+    .hero-rule {
+      width: 32px;
+      height: 1px;
+      background: var(--gold);
+      margin: 18px auto 22px;
+    }
+    .eyebrow {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--gold);
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 14px;
+    }
+    .headline {
+      font-size: clamp(26px, 6vw, 36px);
+      font-weight: 300;
+      line-height: 1.2;
+      margin: 0 0 12px;
+      letter-spacing: -0.3px;
+      color: var(--txt);
+      text-wrap: balance;
+    }
+    .headline em {
+      font-style: italic;
+      color: var(--gold);
+      font-weight: 400;
+    }
+    .lede {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 36ch;
+      margin: 0 auto;
+      text-wrap: pretty;
+    }
+
+    /* ─── Form ─── */
+    .form {
+      margin-top: 38px;
+    }
+    .field {
+      margin-bottom: 22px;
+    }
+    .field-label {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 2.4px;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    .control {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--gold-soft);
+      padding: 10px 0;
+      color: var(--txt);
+      font-size: 16px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+      border-radius: 0;
+    }
+    .control:focus { border-bottom-color: var(--gold); }
+    .control::placeholder { color: rgba(239, 231, 210, 0.22); }
+    .control.invalid { border-bottom-color: var(--error); }
+
+    /* Phone row */
+    .phone-row {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--gold-soft);
+      transition: border-color 0.2s;
+    }
+    .phone-row:focus-within { border-bottom-color: var(--gold); }
+    .phone-row.invalid { border-bottom-color: var(--error); }
+    .phone-prefix {
+      color: var(--gold);
+      font-size: 16px;
+      margin-right: 12px;
+      font-variant-numeric: tabular-nums;
+      font-weight: 400;
+    }
+    .phone-row .control { border-bottom: none; }
+
+    /* Property type segmented */
+    .seg {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .seg button {
+      padding: 13px 0;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--txt);
+      font-size: 12px;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-radius: 0;
+      font-weight: 400;
+    }
+    .seg button:hover { border-color: var(--gold-soft); color: var(--gold); }
+    .seg button.active {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(201, 162, 75, 0.04);
+    }
+    .seg.invalid button { border-color: rgba(224, 82, 82, 0.4); }
+
+    /* Select wrapper */
+    .select-wrap { position: relative; }
+    .select-wrap select {
+      width: 100%;
+      appearance: none;
+      -webkit-appearance: none;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--gold-soft);
+      padding: 10px 22px 10px 0;
+      color: var(--txt);
+      font-size: 16px;
+      font-family: inherit;
+      outline: none;
+      border-radius: 0;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .select-wrap select:focus { border-bottom-color: var(--gold); }
+    .select-wrap select.invalid { border-bottom-color: var(--error); }
+    .select-wrap::after {
+      content: "▾";
+      position: absolute;
+      right: 2px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gold);
+      pointer-events: none;
+      font-size: 10px;
+    }
+    select option { background: var(--bg-soft); color: var(--txt); }
+
+    /* Two-column row */
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 18px;
+    }
+
+    textarea.control {
+      resize: vertical;
+      min-height: 60px;
+      line-height: 1.5;
+    }
+
+    /* Submit */
+    .submit {
+      width: 100%;
+      margin-top: 18px;
+      padding: 18px 0;
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-size: 12px;
+      letter-spacing: 3.2px;
+      text-transform: uppercase;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: 999px;
+      transition: all 0.25s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .submit:hover:not(:disabled) {
+      background: var(--gold);
+      color: #000;
+    }
+    .submit:active:not(:disabled) { transform: scale(0.985); }
+    .submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Spinner */
+    .spinner {
+      display: none;
+      width: 14px;
+      height: 14px;
+      border: 1.5px solid currentColor;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      flex-shrink: 0;
+    }
+    .submit.loading .spinner { display: block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Error banner */
+    .error-banner {
+      display: none;
+      margin-top: 14px;
+      padding: 12px 16px;
+      border: 1px solid rgba(224, 82, 82, 0.35);
+      font-size: 13px;
+      color: #e05252;
+      line-height: 1.5;
+      border-radius: 2px;
+      text-align: center;
+    }
+    .error-banner.visible { display: block; }
+
+    .privacy {
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 18px;
+      line-height: 1.5;
+    }
+
+    /* Stats footer */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 22px;
+      padding: 28px 0 12px;
+      margin-top: 28px;
+      border-top: 1px solid var(--hairline);
+    }
+    .stat { text-align: center; min-width: 60px; }
+    .stat .v {
+      font-size: 18px;
+      color: var(--gold);
+      font-weight: 400;
+      letter-spacing: 0.5px;
+    }
+    .stat .l {
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+    .stat-sep {
+      width: 1px;
+      height: 26px;
+      background: var(--hairline);
+      align-self: center;
+    }
+
+    .siteline {
+      text-align: center;
+      font-size: 9px;
+      letter-spacing: 2.4px;
+      color: #4a4538;
+      text-transform: uppercase;
+      margin-top: 20px;
+    }
+
+    /* ─── Thank You ─── */
+    .thanks {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px 0;
+    }
+    .thanks.visible { display: flex; }
+    .thanks-mark {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      border: 1px solid var(--gold);
+      display: grid;
+      place-items: center;
+      margin-bottom: 30px;
+      animation: thanksIn 0.6s 0.05s both ease-out;
+    }
+    .thanks-eyebrow {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--gold);
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 14px;
+      animation: thanksIn 0.6s 0.15s both ease-out;
+    }
+    .thanks-title {
+      font-size: clamp(34px, 8vw, 48px);
+      font-weight: 300;
+      line-height: 1.1;
+      margin: 0;
+      letter-spacing: -0.6px;
+      animation: thanksIn 0.6s 0.25s both ease-out;
+    }
+    .thanks-title em {
+      font-style: italic;
+      color: var(--gold);
+      font-weight: 400;
+    }
+    .thanks-rule {
+      width: 36px;
+      height: 1px;
+      background: var(--gold);
+      margin: 26px auto;
+      animation: thanksIn 0.6s 0.35s both ease-out;
+    }
+    .thanks-copy {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 36ch;
+      animation: thanksIn 0.6s 0.45s both ease-out;
+    }
+    .thanks-cta {
+      margin-top: 36px;
+      padding: 13px 32px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 2.4px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 999px;
+      font-family: inherit;
+      transition: all 0.2s;
+      animation: thanksIn 0.6s 0.55s both ease-out;
+    }
+    .thanks-cta:hover { color: var(--gold); border-color: var(--gold-soft); }
+
+    @keyframes thanksIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-state.hidden { display: none; }
+
+    /* ─── Responsive scale-ups ─── */
+    @media (min-width: 640px) {
+      .page { padding: 56px 32px 40px; }
+      .logo { max-width: 320px; }
+      .form { margin-top: 46px; }
+      .stats { gap: 36px; }
+    }
+
+    @media (min-width: 960px) {
+      .page { padding: 80px 40px 56px; }
+      .shell { max-width: 560px; }
+      .logo { max-width: 360px; }
+      .hero-rule { margin: 22px auto 28px; }
+    }
+
+    @media (max-width: 380px) {
+      .logo { max-width: 220px; }
+      .page { padding: 24px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="shell">
+
+      <!-- ─── FORM STATE ─── -->
+      <section class="form-state" id="formState">
+        <header class="hero">
+          <img src="assets/archi-nexus-logo.png" alt="Archi Nexus Design Studio" class="logo" />
+          <div class="hero-rule"></div>
+          <div class="eyebrow">Enquire</div>
+          <h1 class="headline">Begin your <em>space</em> story.</h1>
+          <p class="lede">Share a few details. A design consultant will reach out within 24 hours.</p>
+        </header>
+
+        <form class="form" id="enquiryForm" novalidate>
+          <div class="field">
+            <label class="field-label" for="name">Full Name</label>
+            <input class="control" id="name" name="name" type="text" placeholder="Your name" autocomplete="name" required />
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="phone">Phone</label>
+            <div class="phone-row" id="phoneRow">
+              <span class="phone-prefix">+91</span>
+              <input class="control" id="phone" name="phone" type="tel" inputmode="numeric" maxlength="10" placeholder="10-digit number" autocomplete="tel-national" required />
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="email">Email</label>
+            <input class="control" id="email" name="email" type="email" placeholder="you@email.com" autocomplete="email" required />
+          </div>
+
+          <div class="field">
+            <span class="field-label">Property Type</span>
+            <div class="seg" id="propSeg" role="radiogroup" aria-label="Property type">
+              <button type="button" role="radio" aria-checked="false" data-value="apartment">Apartment</button>
+              <button type="button" role="radio" aria-checked="false" data-value="villa">Villa</button>
+              <button type="button" role="radio" aria-checked="false" data-value="office">Office</button>
+            </div>
+            <input type="hidden" name="propertyType" id="propertyType" />
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label class="field-label" for="city">City</label>
+              <div class="select-wrap">
+                <select id="city" name="city" required>
+                  <option value="">Select</option>
+                  <option>Mumbai</option>
+                  <option>Delhi NCR</option>
+                  <option>Bengaluru</option>
+                  <option>Hyderabad</option>
+                  <option>Chennai</option>
+                  <option>Pune</option>
+                  <option>Kolkata</option>
+                  <option>Ahmedabad</option>
+                  <option>Jaipur</option>
+                  <option>Goa</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label class="field-label" for="area">Area / Locality</label>
+              <input class="control" id="area" name="area" type="text" placeholder="e.g. Bandra West" required />
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="message">Project Notes (optional)</label>
+            <textarea class="control" id="message" name="message" rows="2" placeholder="Tell us a bit about your vision…"></textarea>
+          </div>
+
+          <button type="submit" class="submit" id="submitBtn">
+            <span class="spinner" aria-hidden="true"></span>
+            <span class="submit-label">Submit</span>
+          </button>
+          <div class="error-banner" id="errorBanner" role="alert">
+            Something went wrong. Please try again or contact us directly.
+          </div>
+          <div class="privacy">We respect your privacy. No spam, ever.</div>
+        </form>
+
+        <footer class="stats">
+          <div class="stat"><div class="v">12+</div><div class="l">Years</div></div>
+          <div class="stat-sep"></div>
+          <div class="stat"><div class="v">200+</div><div class="l">Projects</div></div>
+          <div class="stat-sep"></div>
+          <div class="stat"><div class="v">14</div><div class="l">Cities</div></div>
+        </footer>
+        <div class="siteline">Archi Nexus Design Studio</div>
+      </section>
+
+      <!-- ─── THANK YOU STATE ─── -->
+      <section class="thanks" id="thanksState" aria-live="polite">
+        <div class="thanks-mark" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+            <path d="M5 12.5L10 17.5L19.5 7" stroke="#C9A24B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="thanks-eyebrow">Received</div>
+        <h2 class="thanks-title">Thank <em>you.</em></h2>
+        <div class="thanks-rule"></div>
+        <p class="thanks-copy">Your enquiry is with our design team. A consultant will be in touch within 24 hours to plan your discovery call.</p>
+        <button type="button" class="thanks-cta" id="resetBtn">Submit another</button>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    /*
+    ============================================================
+    SETUP INSTRUCTIONS
+    ============================================================
+
+    STEP 1 — Web3Forms (email alerts)
+    ----------------------------------
+    1. Go to https://web3forms.com
+    2. Enter your email address → they'll send you an access key instantly
+    3. Paste the key below as WEB3FORMS_KEY
+
+    STEP 2 — Google Sheets (lead log)
+    -----------------------------------
+    1. Create a new Google Sheet. Add these headers in row 1:
+       Timestamp | Name | Phone | Email | Property Type | City | Area | Notes
+
+    2. In the Sheet, go to Extensions → Apps Script
+
+    3. Delete any existing code and paste this:
+
+    ---
+    function doPost(e) {
+      var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+      var d = e.parameter;
+      sheet.appendRow([
+        new Date(),
+        d.name    || '',
+        d.phone   || '',
+        d.email   || '',
+        d.propertyType || '',
+        d.city    || '',
+        d.area    || '',
+        d.message || ''
+      ]);
+      return ContentService
+        .createTextOutput(JSON.stringify({ result: 'ok' }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    ---
+
+    4. Click Deploy → New deployment
+       - Type: Web App
+       - Execute as: Me
+       - Who has access: Anyone
+    5. Authorize the app when prompted
+    6. Copy the Web App URL and paste it below as SHEETS_URL
+
+    ============================================================
+    */
+
+    const WEB3FORMS_KEY = 'REPLACE_WEB3FORMS_KEY';
+    const SHEETS_URL    = 'REPLACE_SHEETS_URL';
+
+    (function () {
+      const form       = document.getElementById('enquiryForm');
+      const formState  = document.getElementById('formState');
+      const thanksState = document.getElementById('thanksState');
+      const resetBtn   = document.getElementById('resetBtn');
+      const submitBtn  = document.getElementById('submitBtn');
+      const submitLabel = submitBtn.querySelector('.submit-label');
+      const errorBanner = document.getElementById('errorBanner');
+
+      // Phone — digits only, max 10
+      const phoneInput = document.getElementById('phone');
+      const phoneRow   = document.getElementById('phoneRow');
+      phoneInput.addEventListener('input', () => {
+        phoneInput.value = phoneInput.value.replace(/\D/g, '').slice(0, 10);
+      });
+
+      // Property segmented control
+      const seg      = document.getElementById('propSeg');
+      const propInput = document.getElementById('propertyType');
+      seg.querySelectorAll('button').forEach((b) => {
+        b.addEventListener('click', () => {
+          seg.querySelectorAll('button').forEach((x) => {
+            x.classList.remove('active');
+            x.setAttribute('aria-checked', 'false');
+          });
+          b.classList.add('active');
+          b.setAttribute('aria-checked', 'true');
+          propInput.value = b.dataset.value;
+          seg.classList.remove('invalid');
+        });
+      });
+
+      // Collect field values into a plain object
+      function collectData() {
+        return {
+          name:         document.getElementById('name').value.trim(),
+          phone:        '+91 ' + phoneInput.value.trim(),
+          email:        document.getElementById('email').value.trim(),
+          propertyType: propInput.value,
+          city:         document.getElementById('city').value,
+          area:         document.getElementById('area').value.trim(),
+          message:      document.getElementById('message').value.trim(),
+        };
+      }
+
+      // Validate and highlight
+      function validate() {
+        let ok = true;
+
+        const name = document.getElementById('name');
+        name.classList.toggle('invalid', !name.value.trim());
+        if (!name.value.trim()) ok = false;
+
+        phoneRow.classList.toggle('invalid', phoneInput.value.length !== 10);
+        if (phoneInput.value.length !== 10) ok = false;
+
+        const email = document.getElementById('email');
+        const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value);
+        email.classList.toggle('invalid', !emailOk);
+        if (!emailOk) ok = false;
+
+        seg.classList.toggle('invalid', !propInput.value);
+        if (!propInput.value) ok = false;
+
+        const city = document.getElementById('city');
+        city.classList.toggle('invalid', !city.value);
+        if (!city.value) ok = false;
+
+        const area = document.getElementById('area');
+        area.classList.toggle('invalid', !area.value.trim());
+        if (!area.value.trim()) ok = false;
+
+        return ok;
+      }
+
+      // Clear invalid state on input
+      ['name', 'email', 'area'].forEach((id) => {
+        document.getElementById(id).addEventListener('input', function () {
+          this.classList.remove('invalid');
+        });
+      });
+      document.getElementById('city').addEventListener('change', function () {
+        this.classList.remove('invalid');
+      });
+
+      // Submit to Web3Forms
+      async function submitToWeb3Forms(data) {
+        if (WEB3FORMS_KEY === 'YOUR_WEB3FORMS_ACCESS_KEY') return; // not configured yet
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            access_key: WEB3FORMS_KEY,
+            subject: 'New Enquiry — Archi Nexus Design Studio',
+            from_name: 'Archi Nexus Enquiry Form',
+            ...data,
+          }),
+        });
+        const json = await res.json();
+        if (!json.success) throw new Error(json.message || 'Web3Forms error');
+      }
+
+      // Submit to Google Sheets (no-cors — response unreadable but data lands)
+      function submitToSheets(data) {
+        if (SHEETS_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL') return Promise.resolve(); // not configured yet
+        const sheetsData = { ...data, phone: data.phone.replace(/^\+91\s*/, '') };
+        return fetch(SHEETS_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(sheetsData).toString(),
+        });
+      }
+
+      // Handle submit
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errorBanner.classList.remove('visible');
+
+        if (!validate()) return;
+
+        const data = collectData();
+
+        submitBtn.disabled = true;
+        submitBtn.classList.add('loading');
+        submitLabel.textContent = 'Sending…';
+
+        try {
+          await Promise.all([
+            submitToWeb3Forms(data),
+            submitToSheets(data),
+          ]);
+
+          formState.classList.add('hidden');
+          thanksState.classList.add('visible');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } catch (err) {
+          console.error('Submission error:', err);
+          errorBanner.classList.add('visible');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.classList.remove('loading');
+          submitLabel.textContent = 'Submit';
+        }
+      });
+
+      // Reset
+      resetBtn.addEventListener('click', () => {
+        form.reset();
+        propInput.value = '';
+        seg.querySelectorAll('button').forEach((x) => {
+          x.classList.remove('active');
+          x.setAttribute('aria-checked', 'false');
+        });
+        form.querySelectorAll('.invalid').forEach((el) => el.classList.remove('invalid'));
+        errorBanner.classList.remove('visible');
+        thanksState.classList.remove('visible');
+        formState.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    })();
+  </script>
+</body>
+</html>
