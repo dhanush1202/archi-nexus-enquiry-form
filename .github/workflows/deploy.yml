@@ -1,0 +1,31 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Inject secrets into HTML
+        run: |
+          sed -i "s|const WEB3FORMS_KEY = 'REPLACE_WEB3FORMS_KEY'|const WEB3FORMS_KEY = '${{ secrets.WEB3FORMS_KEY }}'|" index.html
+          sed -i "s|const SHEETS_URL    = 'REPLACE_SHEETS_URL'|const SHEETS_URL    = '${{ secrets.SHEETS_URL }}'|" index.html
+
+      - uses: actions/configure-pages@v4
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+      - uses: actions/deploy-pages@v4
+        id: deployment
